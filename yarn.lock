@@ -2196,6 +2196,11 @@
   "resolved" "https://registry.npmjs.org/react-fast-compare/-/react-fast-compare-3.2.2.tgz"
   "version" "3.2.2"
 
+"react-hook-form@^7.45.2":
+  "integrity" "sha512-9s45OdTaKN+4NSTbXVqeDITd/nwIg++nxJGL8+OD5uf1DxvhsXQ641kaYHk5K28cpIOTYm71O/fYk7rFaygb3A=="
+  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.45.2.tgz"
+  "version" "7.45.2"
+
 "react-icons@^4.10.1":
   "integrity" "sha512-/ngzDP/77tlCfqthiiGNZeYFACw85fUjZtLbedmJ5DTlNDIwETxhwBzdOJ21zj4iJdvc0J3y7yOsX3PpxAJzrw=="
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.10.1.tgz"
