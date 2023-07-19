@@ -6,8 +6,10 @@ import { Trip } from "@prisma/client";
 import { Controller, useForm } from "react-hook-form";
 
 interface TripReservationProps {
-  trip: Trip
-}
+  tripStartDate: Date,
+  tripEndDate: Date,
+  maxGuests: number
+} 
 
 interface TripReservationForm {
   guests: number,
@@ -15,17 +17,20 @@ interface TripReservationForm {
   endDate: Date | null 
 }
 
-const TripReservation = ({ trip }: TripReservationProps) => {
+const TripReservation = ({  maxGuests, tripStartDate, tripEndDate}: TripReservationProps) => {
   const { 
     register, 
     handleSubmit, 
     formState: { errors },
-    control
+    control,
+    watch
   } = useForm<TripReservationForm>()
 
   const OnSubmit = (data: any) => {
     
   }   
+
+  const startDate = watch('startDate')
 
   return (
       <div className="flex flex-col px-5">
@@ -41,11 +46,13 @@ const TripReservation = ({ trip }: TripReservationProps) => {
             control={control}
             render={({ field }) => 
               <DatePicker 
+                className="w-full"
                 placeholderText="Data de Início" 
                 onChange={field.onChange}
                 error={!!errors?.startDate}
                 errorMessage={errors?.startDate?.message}
                 selected={field.value}
+                minDate={tripStartDate}
               />
             }
         />
@@ -61,15 +68,18 @@ const TripReservation = ({ trip }: TripReservationProps) => {
             control={control}
             render={({ field }) => 
               <DatePicker 
+                className="w-full"
                 placeholderText="Data Final" 
                 onChange={field.onChange}
                 error={!!errors?.endDate}
                 errorMessage={errors?.endDate?.message}
                 selected={field.value}
+                maxDate={tripEndDate}
+                minDate={startDate ?? tripStartDate}
               />
             }
         />
-        </div>
+      </div>  
 
         <Input {...register('guests', {
           required: {
@@ -79,7 +89,7 @@ const TripReservation = ({ trip }: TripReservationProps) => {
         })} 
           error={!!errors?.guests}
           errorMessage={errors?.guests?.message}
-          placeholder={`Número de hóspedes (max: ${trip.maxGuests})`} 
+          placeholder={`Número de hóspedes (max: ${maxGuests})`} 
           className="mt-4"
         /> 
 
