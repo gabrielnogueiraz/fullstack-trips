@@ -3,7 +3,9 @@ import { Prisma } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import ReactCountryFlag from "react-country-flag";
+import { toast } from "react-toastify";
 
 
 interface UserReservationItemProps {
@@ -13,7 +15,22 @@ interface UserReservationItemProps {
 }
 
 const UserReservationItem = ({reservation}: UserReservationItemProps) => {
+  const router = useRouter()
   const { trip } = reservation
+
+  const handleDeleteClick = async () => {
+     const res = await fetch(`/api/trips/reservation/${reservation.id}`, {
+        method: 'DELETE'
+      })
+
+      if(!res.ok){
+        return toast.error("Ocorreu um erro ao cancelar a reserva!")
+      }
+
+      toast.success("Reserva cancelada com sucesso!", { position: 'bottom-center' })
+
+      router.replace("/")
+  }
 
   return (
     <div className="container mx-auto p-5">
@@ -59,7 +76,7 @@ const UserReservationItem = ({reservation}: UserReservationItemProps) => {
             <p className="text-primaryDarker text-sm mt-2">Total:</p>
             <p className="font-medium text-sm">R${Number(reservation.totalPaid)}</p>
           </div>
-          <Button className="w-full mt-5" variant="danger">Cancelar</Button>
+          <Button onClick={handleDeleteClick} className="w-full mt-5" variant="danger">Cancelar</Button>
         </div>
       </div>
     </div>
