@@ -9,6 +9,7 @@ import ptBR from "date-fns/locale/pt-BR";
 import Button from "@/components/Button";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
+import { loadStripe } from "@stripe/stripe-js";
 
 const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   const [trip, setTrip] = useState<Trip | null>()
@@ -51,7 +52,7 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
   if(!trip) return null
 
   const handleBuyClick = async () => {
-   const res = await fetch('http://localhost:3000/api/trips/reservation', {
+   const res = await fetch('http://localhost:3000/api/payment', {
       method: 'POST',
       body: Buffer.from(
         JSON.stringify({
@@ -59,8 +60,10 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
           startDate: searchParams.get('startDate'),
           endDate: searchParams.get('endDate'),
           guests: Number(searchParams.get('guests')),
-          userId: (data?.user as any)?.id!,
-          totalPaid: totalPrice
+          totalPrice: totalPrice,
+          coverImage: trip.coverImage,
+          name: trip.name,
+          description: trip.description
         })
       )
     })
@@ -69,7 +72,11 @@ const TripConfirmation = ({ params }: { params: { tripId: string } }) => {
       return toast.error("Ocorreu um erro ao realizar sua reserva!")
     }
 
-    router.push('/')
+    const { sessionId } = await res.json()
+
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY as string)
+
+    await stripe?.redirectToCheckout({ sessionId })
 
     toast.success("Reserva realizada com sucesso!", { position: 'bottom-center'})
   }
