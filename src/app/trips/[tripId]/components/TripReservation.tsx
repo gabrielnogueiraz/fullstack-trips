@@ -120,7 +120,6 @@ const TripReservation = ({ tripId, maxGuests, tripStartDate, tripEndDate, prince
                 error={!!errors?.endDate}
                 errorMessage={errors?.endDate?.message}
                 selected={field.value}
-                maxDate={tripEndDate}
                 minDate={startDate ?? tripStartDate}
               />
             }

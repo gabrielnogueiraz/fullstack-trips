@@ -22,13 +22,14 @@ const TripSearch = () => {
   }
 
   return(
-    <div className='container mx-auto p-5 bg-search-background bg-cover bg-center bg-no-repeat'>
-      <h1 className='font-semibold text-2xl text-primaryDarker text-center'>
+    <div className='container mx-auto p-5 bg-search-background bg-cover bg-center bg-no-repeat md:h-80'>
+      <h1 className='font-semibold text-2xl text-primaryDarker text-center md:mt-20'>
         Encontre sua próxima <span className='text-primary'>viagem!</span>
       </h1>
 
-      <div className='flex flex-col gap-4 mt-5'>
+      <div className='flex flex-col gap-4 mt-5 md:flex-row'>
         <Input
+          className='w-full'
           placeholder="Onde você quer ir?"
           error={!!errors.text}
           errorMessage={errors.text?.message}
@@ -45,7 +46,7 @@ const TripSearch = () => {
             name="startDate"
             control={control}
             render={({ field }) => (
-              <DatePicker onChange={field.onChange} selected={field.value} placeholderText="Data Final" className="w-full" minDate={new Date()} />
+              <DatePicker onChange={field.onChange} selected={field.value} placeholderText="Data Final" className="w-full md:w-72" minDate={new Date()} />
             )}
           />
 
@@ -54,6 +55,7 @@ const TripSearch = () => {
             control={control}
             render={({ field }) => (
               <CurrencyInput
+                className='md:w-72'
                 allowDecimals={false}
                 placeholder="Orçamento"
                 onValueChange={field.onChange as any}
@@ -64,7 +66,7 @@ const TripSearch = () => {
           />
         </div>
 
-        <Button onClick={() => {handleSubmit(onSubmit)()}}>Buscar</Button>
+        <Button className='md:w-72' onClick={() => {handleSubmit(onSubmit)()}}>Buscar</Button>
       </div>
     </div>
   )
