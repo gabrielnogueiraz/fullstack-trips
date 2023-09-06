@@ -12,7 +12,7 @@ interface TriHeaderProps {
 const TripHeader = ({ trip }: TriHeaderProps) => {
   return(
     <div className="flex flex-col">
-       <div className="relative h-[280px] w-full">
+       <div className="relative h-[380px] w-full">
         <Image 
           src={trip?.coverImage}
           fill
